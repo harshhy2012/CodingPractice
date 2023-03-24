@@ -2,31 +2,32 @@
 
 using namespace std;
 
-int recMul(int n, int m){
-    if(m==0||n==0)
+int fastMultiply(int a, int b){
+    if(b==0||a==0)
         return 0;
-    if(m==1)
-        return n;
+    if(b==1)
+        return a;
     int smallAns = 0;
     //if one num is -ve
-    if(n<0&&m>=0 || n>=0 && m<0){
-        n = abs(n);
-        m = abs(m);
-        smallAns = recMul(n,m/2);
-        smallAns*= (-2);
-        if(m&1)
-            return smallAns-n;
+    if(a<0&&b>=0 || a>=0 && b<0){
+        a = abs(a);
+        b = abs(b);
+        smallAns = fastMultiply(a,b/2);
+        smallAns += smallAns;
+        smallAns = -smallAns;
+        if(b&1)
+            return smallAns-a;
         else
             return smallAns;
     }
     //if both numbers are positive or negetive
     else{
-        n = abs(n);
-        m = abs(m);
-        smallAns = recMul(n,m/2);
-        smallAns*= 2;
-        if(m&1)
-            return n+smallAns;
+        a = abs(a);
+        b = abs(b);
+        smallAns = fastMultiply(a,b/2);
+        smallAns += smallAns;
+        if(b&1)
+            return a+smallAns;
         else
             return smallAns;
     }
@@ -34,8 +35,8 @@ int recMul(int n, int m){
 }
 
 int main(){
-    int n,m;
-    cin>>n>>m;
-    cout<<recMul(n,m)<<endl;
+    int a,b;
+    cin>>a>>b;
+    cout<<fastMultiply(a,b)<<endl;
     return 0;
 }

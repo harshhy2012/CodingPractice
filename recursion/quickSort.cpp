@@ -2,6 +2,12 @@
 
 using namespace std;
 
+void quickSort(vector<int> arr, int low, int high){
+
+    
+
+}
+
 int main(){
     ifstream cin("quickSort.txt");
     if(cin.fail())
