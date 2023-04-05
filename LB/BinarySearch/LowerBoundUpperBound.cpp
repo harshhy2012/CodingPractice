@@ -4,15 +4,15 @@ using namespace std;
 
 int upperBound(vector<int> arr, int key){
     int s = 0, e = arr.size()-1;
-    int mid;
-    int ans;
+    int mid=0;
+    int ans=-1;
     while(s<=e){
         mid = s+(e-s)/2;
         if(arr[mid]==key){
             ans = mid;
             s = mid+1;
         }
-        else if(arr[mid]>key){
+        else if(arr[mid]<key){
             s = mid+1;
         }
         else{
@@ -32,7 +32,7 @@ int lowerBound(vector<int> arr, int key){
             ans = mid;
             e = mid-1;
         }
-        else if(arr[mid]>key){
+        else if(arr[mid]<key){
             s = mid+1;
         }
         else{
