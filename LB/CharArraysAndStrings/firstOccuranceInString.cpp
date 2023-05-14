@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 int firstOcc(string haystack, string needle){
     if(needle.size()> haystack.size())
             return -1;
@@ -12,24 +11,25 @@ int firstOcc(string haystack, string needle){
         else
             return -1;
         
-    int winSize = needle.size()-1;
-        int i=0, j = i+winSize;
-        bool found = true;
-        while(i<haystack.size() && j<haystack.size()){
-            if(haystack[i] == needle[0] && haystack[j] == needle[winSize]){
-                if(i==j){
-                    found = true;
-                }
-                for(int x = i+1, y=0;x<=j;x++,y++){
-                    if(haystack[x]!=needle[y])
-                        found = false;
-                }
-                if(found)
-                    return i;
+int winSize = needle.size()-1;
+    int i=0, j = i+winSize;
+    
+    while(i<haystack.size() && j<haystack.size()){
+        if(haystack[i] == needle[0] && haystack[j] == needle[winSize]){
+            bool found = true;
+            if(i==j){
+                return i;
             }
-            i++;j++;
+            for(int x = i+1;x<j;x++){
+                if(haystack[x]!=needle[x-i])
+                    found = false;
+            }
+            if(found)
+                return i;
         }
-        return -1;
+        i++;j++;
+    }
+    return -1;
 }
 
 int main(){
