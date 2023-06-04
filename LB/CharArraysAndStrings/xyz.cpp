@@ -16,8 +16,23 @@ void SieveOfEratosthenes(int n) {
 			cout << p << " ";
 }
 
+int find(int x, int *py, int **ppz){
+	int y, z;
+	**ppz += 1;
+	z = **ppz;
+	*py += 2;
+	y = *py;
+	x+=3;
+	return x + y + z;
+}
+
 int main() {
-	int n = 50;
-	SieveOfEratosthenes(n);
+	// int n = 50;
+	// SieveOfEratosthenes(n);
+	int c, *b, **a;
+	c = 4;
+	b = &c;
+	a = &b;
+	cout<<find(c, b, a);
 	return 0;
 }
