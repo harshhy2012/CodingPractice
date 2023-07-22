@@ -8,19 +8,24 @@ void combinationSumHelper(vector<int>&candidates, int target, vector<int> &ans, 
         finAns.push_back(ans);
         return;
     }
-    if(target<0){
+    if(target<0 || index>=candidates.size()){
         return;
     }
     for(int i = index; i<candidates.size();i++){
+        if(i>index && candidates[i]==candidates[i-1]){
+            continue;
+        }
         ans.push_back(candidates[i]);
-        combinationSumHelper(candidates, target-candidates[i], ans, finAns, i);
+        combinationSumHelper(candidates, target-candidates[i], ans, finAns, i+1);
         ans.pop_back();
     }
 }
 
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    sort(candidates.begin(), candidates.end());
     vector<vector<int>> finAns;
     vector<int> ans;
+    vector<bool> picked(candidates.size(), false);
     combinationSumHelper(candidates, target, ans, finAns, 0);
     return finAns;
 }
