@@ -12,7 +12,7 @@ public:
         this->next = NULL;
     }
     Node(int data){
-        this->data = 0;
+        this->data = data;
         this->next = NULL;
     }
 };
@@ -29,14 +29,14 @@ void insertAtTail(Node*&head, Node*&tail, int data){
     tail = newNode;
 }
 
-Node* reverseLinkedList(Node*&head){
-    if(!head){
-        return NULL;
+Node* reverseLinkedList(Node*&prev, Node*&curr){
+    if(!curr){
+        return prev;
     }
-    Node*temp = head->next;
-    head->next = reverseLinkedList(head->next);
-    temp->next = head;
-    return temp;
+    Node*forward = curr->next;
+    curr->next = prev;
+    
+    reverse(curr, forward);
 }
 
 void printList(Node* head){
@@ -56,7 +56,10 @@ int main(){
 
     printList(head);
 
-    reverseLinkedList(head);
+    Node* prev = NULL;
+    Node* curr = head;
+
+    head = reverseLinkedList(prev, curr);
 
     printList(head);
 
