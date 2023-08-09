@@ -135,6 +135,8 @@ int main(){
     insertAtTail(head, tail, 70);
     insertAtTail(head, tail, 80);
 
+    insertAtPosition(4, head, tail, 101);
+
     printList(head);
 
     cout<<"Link Length: "<<listLen(head)<<endl;

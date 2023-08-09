@@ -18,20 +18,6 @@ public:
 
 };
 
-void insertAtHead(Node*&head ,Node*&tail, int data){
-    if(!head){
-        Node* newNode = new Node(data);
-        head = newNode;
-        tail = newNode;
-        tail->next = head;
-        return;
-    }
-    Node* newNode = new Node(data);
-    tail->next = newNode;
-    newNode->next = head;
-    head = newNode;
-}
-
 int listLen(Node*head, Node*tail){
     if(!head){
         return 0;
@@ -48,6 +34,20 @@ int listLen(Node*head, Node*tail){
     return len;
 }
 
+void insertAtHead(Node*&head ,Node*&tail, int data){
+    if(!head){
+        Node* newNode = new Node(data);
+        head = newNode;
+        tail = newNode;
+        tail->next = head;
+        return;
+    }
+    Node* newNode = new Node(data);
+    tail->next = newNode;
+    newNode->next = head;
+    head = newNode;
+}
+
 void insertAtTail(Node*&head ,Node*&tail, int data){
     if(!head){
         Node* newNode = new Node(data);
@@ -58,7 +58,7 @@ void insertAtTail(Node*&head ,Node*&tail, int data){
     }
     Node* newNode = new Node(data);
     tail->next = newNode;
-    newNode = tail;
+    tail = newNode;
     tail->next = head;
 }
 
@@ -72,19 +72,16 @@ void insertAtPosition(int posi, Node*&head, Node*&tail, int data){
         insertAtTail(head, tail, data);
         return;
     }
-
     Node*temp = head;
-    while(posi>1){
+    while(posi>2){
         temp = temp->next;
         posi--;
     }
 
     Node*newNode = new Node(data);
+    newNode->next = temp->next;
     temp->next = newNode;
-    newNode->next = temp->next->next;
 }
-
-
 
 void printList(Node*head, Node*tail){
     if(!head){
@@ -103,20 +100,63 @@ void printList(Node*head, Node*tail){
     cout<<endl;
 }
 
+void deleteAtHead(Node*&head, Node*&tail){
+    Node*temp = head;
+    head = head->next;
+    tail->next = head;
+    temp->next = NULL;
+    delete temp;
+}
 
-
+void deleteAtTail(Node*&head, Node*&tail){
+    Node*temp = tail;
+    Node*newTail = head;
+    while(newTail->next != tail){
+        newTail = newTail->next;        
+    }
+    tail = newTail;
+    tail->next = head;
+    temp->next = NULL;
+    delete temp;
+}
+void deleteAtPosition(int posi, Node*&head, Node*&tail){
+    if(posi<=1){
+        deleteAtHead(head, tail);
+        return;
+    }
+    if(posi>=listLen(head, tail)){
+        deleteAtTail(head, tail);
+        return;
+    }
+    Node*curr = head;
+    while(posi>2){
+        curr = curr->next;
+        posi--;
+    }
+    Node*temp = curr->next;
+    curr->next = curr->next->next;
+    temp->next = NULL;
+    delete temp;
+}
 
 int main(){
     Node*head = NULL, *tail = NULL;
+    insertAtTail(head, tail, 50);
+    insertAtTail(head, tail, 60);
+    insertAtTail(head, tail, 70);
+    insertAtTail(head, tail, 80);
     insertAtHead(head, tail, 40);
     insertAtHead(head, tail, 30);
     insertAtHead(head, tail, 20);
     insertAtHead(head, tail, 10);
-    insertAtTail(head, tail, 50);
-    insertAtHead(head, tail, 60);
-    insertAtHead(head, tail, 70);
-    insertAtHead(head, tail, 80);
+    insertAtPosition(8,head, tail, 101);
     printList(head, tail);
-
+    deleteAtHead(head, tail);
+    printList(head, tail);
+    deleteAtTail(head, tail);
+    printList(head, tail);  
+    deleteAtPosition(2, head, tail);
+    printList(head, tail);
+    
     return 0;
 }

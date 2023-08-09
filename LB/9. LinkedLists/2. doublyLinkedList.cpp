@@ -143,6 +143,14 @@ void printList(Node*head){
     cout<<endl;
 }
 
+void printListReverse(Node*tail){
+    while(tail){
+        cout<<tail->data<<" ";
+        tail = tail->prev;
+    }
+    cout<<endl;
+}
+
 int main(){
     Node *head = NULL, *tail = NULL;
     insertAtHead(head, tail, 40);
@@ -151,18 +159,18 @@ int main(){
     insertAtHead(head, tail, 10);
     
     printList(head);
+    printListReverse(tail);
+    // insertAtTail(head, tail, 50);
+    // insertAtTail(head, tail, 60);
+    // insertAtTail(head, tail, 70);
+    // insertAtTail(head, tail, 80);
 
-    insertAtTail(head, tail, 50);
-    insertAtTail(head, tail, 60);
-    insertAtTail(head, tail, 70);
-    insertAtTail(head, tail, 80);
+    // printList(head);
+    // deleteAtTail(head, tail);
+    // // deleteAtPosition(8, head, tail);
 
-    printList(head);
-    deleteAtTail(head, tail);
-    // deleteAtPosition(8, head, tail);
-
-    printList(head);
-
+    // printList(head);
+    // printListReverse(tail);
 
     return 0;
 }

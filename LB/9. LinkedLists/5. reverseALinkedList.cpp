@@ -17,6 +17,14 @@ public:
     }
 };
 
+void printList(Node* head){
+    while(head){
+        cout<<head->data<<" ";
+        head = head->next;
+    }
+    cout<<endl;
+}
+
 void insertAtTail(Node*&head, Node*&tail, int data){
     if(!head){
         Node *newNode = new Node(data);
@@ -29,22 +37,45 @@ void insertAtTail(Node*&head, Node*&tail, int data){
     tail = newNode;
 }
 
-Node* reverseLinkedList(Node*&prev, Node*&curr){
-    if(!curr){
-        return prev;
-    }
-    Node*forward = curr->next;
-    curr->next = prev;
-    
-    reverse(curr, forward);
+Node* reverseLLRecI(Node*&prev, Node*&curr){
+           //base case
+        if(curr == NULL) 
+                return prev;
+
+        Node* forward = curr ->next;
+        curr ->next = prev;
+        //recursion sambhal lega
+        return reverseLLRecI(curr, forward);
 }
 
-void printList(Node* head){
-    while(head){
-        cout<<head->data<<" ";
-        head = head->next;
+Node* reverseLLRecII(Node*&head){
+    if(!head || !head->next){
+        return head;
     }
-    cout<<endl;
+    Node*smallHead = reverseLLRecII(head->next);
+    Node*c = head;
+    c->next->next = c;
+    c->next = NULL;
+    
+    return smallHead;
+}
+
+Node* reverseLLIter(Node*&head){
+    if(!head || !head->next){
+        return head;
+    }
+
+    Node*prev =  NULL;
+    Node*curr = head, *next;
+
+    while(curr!=NULL){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    head = prev;
+    return head;
 }
 
 int main(){
@@ -54,14 +85,24 @@ int main(){
     insertAtTail(head, tail, 30);
     insertAtTail(head, tail, 40);
 
-    printList(head);
+    // printList(head);
 
     Node* prev = NULL;
     Node* curr = head;
 
-    head = reverseLinkedList(prev, curr);
-
+    head = reverseLLIter(head);
     printList(head);
+  
+    head = reverseLLRecI(prev, head);
+    printList(head);
+    head = reverseLLRecII(head);
+    printList(head);
+
+    head = reverseLLRecI(prev, head);
+    printList(head);
+    head = reverseLLRecII(head);
+    printList(head);
+
 
     return 0;
 }

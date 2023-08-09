@@ -29,8 +29,6 @@ void insertAtTail(Node*&head, Node*&tail, int data){
     tail = newNode;
 }
 
-
-
 void printList(Node* head){
     while(head){
         cout<<head->data<<" ";
@@ -39,7 +37,27 @@ void printList(Node* head){
     cout<<endl;
 }
 
+Node* middleNode(Node* head){
+    Node*slow = head;
+    Node*fast = head->next;
+    while(fast!=NULL){
+        fast = fast->next;
+        if(fast!=NULL){
+            fast = fast->next;
+            slow = slow->next;
+        }
+    }
+    return slow;
+}
+
 int main(){
-    
+    Node *head = NULL, *tail = NULL;
+    insertAtTail(head, tail, 10);
+    insertAtTail(head, tail, 20);
+    insertAtTail(head, tail, 30);
+    insertAtTail(head, tail, 40);
+    printList(head);
+    Node*mid = middleNode(head);
+    printList(mid);
     return 0;
 }
