@@ -48,33 +48,39 @@ Node* reverseLLRecI(Node*&prev, Node*&curr){
         return reverseLLRecI(curr, forward);
 }
 
+int listLen(Node*head){
+    Node*temp = head;
+    int len = 0;
+    while(temp){
+        len++;
+        temp = temp->next;
+    }
+    return len;
+}
+
 Node* reverseK(Node*&head, int k){
-   if(!head || !head->next){
+    if(!head)
+    return NULL;
+    if(k>listLen(head) || !head->next){
+        return head;
+    }
+    if(!head->next){
       return head;
-   }
-   Node*prev = NULL, *curr = head, *next, *forward;
-
-   while(k>0 && curr){   
-      next = curr->next;
-      if(k==1){
-         forward = next;
-         // cout<<"next->next->data: "<<next->next->data<<endl;
-         cout<<"forward->data: "<<forward->data<<endl;
-      }
-
-      curr->next = prev;
-      prev = curr;
-      curr = next;
-      k--;
-   }
-   Node* klist = prev;
-   while(klist->next){
-      klist = klist->next;
-   } 
-   cout<<"klist->data: "<<klist->data<<endl;
-   cout<<"forward->data: "<<forward->data<<endl;
-   klist->next = reverseK(forward,k);
-   return prev;
+    }
+    Node*prev = NULL, *curr = head, *next;
+    int count = 0;
+    while(count<k){   
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        count++;    
+    }
+    if(next!=NULL){
+        head->next = reverseK(next,k);
+    }
+    
+    return prev;
 }
 
 Node* reverseLLRecII(Node*&head){
@@ -113,9 +119,9 @@ int main(){
    insertAtTail(head, tail, 20);
    insertAtTail(head, tail, 30);
    insertAtTail(head, tail, 40);
-   // insertAtTail(head, tail, 50);
-   // insertAtTail(head, tail, 60);
-   // insertAtTail(head, tail, 70);
+   insertAtTail(head, tail, 50);
+   insertAtTail(head, tail, 60);
+   insertAtTail(head, tail, 70);
 
    printList(head);
 

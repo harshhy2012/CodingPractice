@@ -80,10 +80,15 @@ Node* reverseLLIter(Node*&head){
 
 int main(){
     Node *head = NULL, *tail = NULL;
+    Node*num1head = NULL, *num1tail = NULL, *num2head = NULL, *num2tail = NULL;
     insertAtTail(head, tail, 10);
     insertAtTail(head, tail, 20);
     insertAtTail(head, tail, 30);
     insertAtTail(head, tail, 40);
+    
+    insertAtTail(num2head, num2tail, 8);
+    insertAtTail(num2head, num2tail, 9);
+    insertAtTail(num2head, num2tail, 9);
 
     // printList(head);
 

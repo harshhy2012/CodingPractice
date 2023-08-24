@@ -102,27 +102,48 @@ bool isPalindrome(Node*&head){
     return true;
 }
 
+void removeDuplicates(Node*&head){
+    // 1st identify if
+    if(!head || !head->next){
+        return;
+    }
+    Node*temp = head;
 
+    while(temp->next){
+        if(temp->data == temp->next->data){
+            Node* dup = temp->next;
+            temp->next = dup->next;
+            dup->next = NULL;
+            delete dup; 
+        }
+        else{
+            temp = temp->next;
+        }
+    }
+}
 
 int main(){
     Node*head = NULL, *tail = NULL;
     Node*one = new Node(10);
-    Node*two = new Node(10);
-    // Node*three = new Node(30);
-    // Node*four = new Node(40);
-    // Node*five = new Node(30);
-    // Node*six = new Node(10);
-    // Node*seven = new Node(10
+    Node*two = new Node(20);
+    Node*three = new Node(20);
+    Node*four = new Node(30);
+    Node*five = new Node(30);
+    Node*six = new Node(30);
+    Node*seven = new Node(40);
 
     one->next = two;
-    // two->next = three;
-    // three->next = four;
-    // four->next = five;
-    // five->next = six;
-    // six->next = seven;
+    two->next = three;
+    three->next = four;
+    four->next = five;
+    five->next = six;
+    six->next = seven;
     // Node*mid = midpoint(one);
     // cout<<"mid->data: "<<mid->data<<endl;
 
+    printList(one);
+    removeDuplicates(one);
+    printList(one);
     if(isPalindrome(one)){
         cout<<"PALINDROME!\n";
     }

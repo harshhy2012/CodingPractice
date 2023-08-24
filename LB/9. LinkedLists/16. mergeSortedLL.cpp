@@ -71,42 +71,6 @@ void insertAtPosition(int posi, Node*&head, Node*&tail, int data){
     temp->next = newNode;
 }
 
-Node* reverseList(Node*&head){
-    if(!head || !head->next){
-        return head;
-    }
-    Node* prev = NULL, *curr = head, *next;
-    
-    while(curr){
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-    head = prev;
-    return head;
-}
-Node* reverseListRecI(Node*&prev, Node*&curr){
-    if(!curr){
-
-    }
-    Node*forward = curr->next;
-    curr->next = prev;
-    prev = curr;
-    return  reverseListRecI(curr, forward);
-}
-
-Node* reverseListRecII(Node*&head){
-    if(!head || !head->next){
-        return head;
-    }
-    Node* smallHead = reverseListRecII(head->next);
-    Node* c = head;
-    c->next->next = c;
-    c->next = NULL;
-    return smallHead;
-}
-
 void deleteAtHead(Node*&head){
     Node*temp = head;
     head = head->next;
@@ -159,51 +123,84 @@ void printList(Node* head){
     cout<<endl;
 }
 
-Node* sum(Node*num1head, Node*num2head){
+Node* merge(Node*&head1, Node*&head2){
+    if(!head1)
+        return head2;
+    if(!head2)
+        return head1;
+    
+    Node*newList, *newHead;
+    if(head1->data <= head2->data){
+        newList = head1;
+        newHead = newList;
+        head1 = head1->next;
+    }
+        
+    else{
+        newList = head2;
+        head2 = head2->next;
+    }
+    
+    while(head1 && head2){
+        if(head1->data >= head2->data){
+            newList->next = head2;
+            newList = newList->next;
+            head2 = head2->next;
+        }
+        else{
+            newList->next = head1;
+            newList = newList->next;
+            head1 = head1->next;
+        }
+    }
 
-    num1head = reverseListRecII(num1head);
-    num2head = reverseListRecII(num2head);
+    while(head1){
+        newList->next = head1;
+        newList = newList->next;
+        head1 = head1->next;
+    }
+    while(head2){
+        newList->next = head2;
+        newList = newList->next;
+        head2 = head2->next;
+    }
+    return newHead;
+}
 
-    int carry = 0;
-    Node* sumHead = NULL, *sumTail = NULL;
-    while(num1head && num2head){
-        int digSum = num1head->data+num2head->data+carry;
-        carry = digSum/10;
-        digSum = digSum%10;
-        insertAtHead(sumHead, sumTail, digSum);
-        num1head = num1head->next;
-        num2head = num2head->next;
+Node* mergeRec(Node*&head1, Node*&head2){
+    if(!head1)
+        return head2;
+    if(!head2)
+        return head1;
+    
+    Node* newList;
+
+    if(head1->data <= head2->data){
+        newList = head1;
+        newList->next = mergeRec(head1->next, head2);
     }
-    while(num1head){
-        int digSum = num1head->data+carry;
-        carry = digSum/10;
-        digSum = digSum%10;
-        insertAtHead(sumHead, sumTail, digSum);
-        num1head = num1head->next;
+    else{
+        newList = head2;
+        newList->next = mergeRec(head1, head2->next);
     }
-    while(num2head){
-        int digSum = num2head->data+carry;
-        carry = digSum/10;
-        digSum = digSum%10;
-        insertAtHead(sumHead, sumTail, digSum);
-        num2head = num2head->next;
-    }
-    return sumHead;
+
+    return newList;
 }
 
 int main(){
-    Node*num1head = NULL, *num1tail = NULL, *num2head = NULL, *num2tail = NULL;
-    insertAtTail(num1head, num1tail, 1);
-    insertAtTail(num1head, num1tail, 1);
-    insertAtTail(num1head, num1tail, 1);
-    insertAtTail(num1head, num1tail, 1);
-    // num1 =  7998
-    insertAtTail(num2head, num2tail, 8);
-    insertAtTail(num2head, num2tail, 9);
-    insertAtTail(num2head, num2tail, 9);
-    // num2 =   899
-    Node*ans = sum(num1head, num2head);
-    // ans =   8897
-    printList(ans);
+    Node*head1 = NULL, *tail1 = NULL;
+    Node*head2 = NULL, *tail2 = NULL;
+    insertAtTail(head1, tail1, 1);
+    insertAtTail(head1, tail1, 5);
+    insertAtTail(head1, tail1, 9);
+    insertAtTail(head2, tail2, 2);
+    insertAtTail(head2, tail2, 3);
+    insertAtTail(head2, tail2, 4);
+    insertAtTail(head2, tail2, 10);
+
+    cout<<"LIST1: ";printList(head1);
+    cout<<"LIST2: ";printList(head2);
+    cout<<"MergedList: ";printList(mergeRec(head1, head2));
+
     return 0;
 }
