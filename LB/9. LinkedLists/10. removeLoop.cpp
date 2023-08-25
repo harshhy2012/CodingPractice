@@ -92,18 +92,18 @@ void breakLoop(Node*&head){
 
 int main(){
     // Node*head = NULL, *tail = NULL;
-    Node*one = new Node(10);
-    Node*two = new Node(20);
-    Node*three = new Node(30);
-    Node*four = new Node(40);
-    Node*five = new Node(50);
-    Node*six = new Node(60);
-    Node*seven = new Node(70);
-    Node*eight = new Node(80);
-    Node*nine = new Node(90);
-    Node*ten = new Node(100);
-    Node*eleven = new Node(110);
-    Node*twelve = new Node(120);
+    Node*one = new Node(1);
+    Node*two = new Node(2);
+    Node*three = new Node(3);
+    Node*four = new Node(4);
+    Node*five = new Node(5);
+    Node*six = new Node(6);
+    Node*seven = new Node(7);
+    Node*eight = new Node(8);
+    Node*nine = new Node(9);
+    Node*ten = new Node(10);
+    Node*eleven = new Node(11);
+    Node*twelve = new Node(12);
 
     one->next = two;
     two->next = three;
@@ -117,6 +117,7 @@ int main(){
     ten->next = eleven;
     eleven->next = twelve;
     twelve->next = seven;
+    
     if(isLooped(one)){
         cout<<"Loop Found!\n";
         cout<<"breaking Loop...\n";
