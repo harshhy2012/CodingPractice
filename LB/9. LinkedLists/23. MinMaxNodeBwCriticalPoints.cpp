@@ -119,46 +119,80 @@ void printList(ListNode* head){
 }
 
 vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-    vector<int> ans;
-    vector<pair<int, int>> criticalPoints;
+
+    vector<int> criticalPoints;
     if(!head || !head->next || !head->next->next){
         return {-1,-1};
     }
-    ListNode*prev = NULL, *curr = head, *next = head->next;
+    ListNode*prev = head, *curr = head->next, *forward;
     int len = 1;
-    while(next){
-        next = curr->next;
-        if((prev && prev->val < curr->val) && (next && next->val < curr->val)){
-            criticalPoints.push_back({curr->val, len});
-        } else if((prev && prev->val > curr->val) && (next && next->val > curr->val)){
-            criticalPoints.push_back({curr->val, len});
+    while(forward){
+        if(curr->next!=NULL){
+            forward = curr->next;
         }
+    
+        if(curr->next==NULL){
+            break;
+        }
+       
+        if(prev && forward){
+            if(prev->val < curr->val && forward->val < curr->val)
+                criticalPoints.push_back(len);
+            else if(prev->val > curr->val && forward->val > curr->val)
+                criticalPoints.push_back(len);
+        }
+        // cout<<"CriticalPoints: ";
+        // for(auto i: criticalPoints){
+        // cout<<i<<" ";
+        // }
+        cout<<endl;
+
         prev = curr;
-        curr = next;
+        curr = forward;
         len++;
     }
 
+  
+    
     for(auto i: criticalPoints){
-        cout<<"Val: "<<i.first<<" ||  posi: "<<i.second<<endl;
+        cout<<"posi: "<<i<<endl;
     }
+    
+    
+    int minDist = INT_MAX, maxDist = INT_MIN;
+    if(criticalPoints.size()<2)
+        minDist = maxDist = -1;
+    
+    else if(criticalPoints.size()==2)
+        minDist = maxDist = criticalPoints[criticalPoints.size()-1] - criticalPoints[0];
+    else{
+        vector<int>mins;
+        for(int i=0;i<criticalPoints.size()-1;i++)
+        mins.push_back(criticalPoints[i+1]-criticalPoints[i]);
+        for(int i=0;i<mins.size();i++){
+            minDist = min(minDist,mins[i]);
+        }
+        maxDist = criticalPoints[criticalPoints.size()-1] - criticalPoints[0];
+    }
+        
 
-    int minDist, maxDist = criticalPoints[criticalPoints.size()-1].second - criticalPoints[0].second;
 
     return {minDist, maxDist};
 }
 
 int main(){
     ListNode*head = NULL, *tail = NULL;
-    //1,3,2,2,3,2,2,2,7
-    insertAtTail(head, tail, 1);
-    insertAtTail(head, tail, 3);
-    insertAtTail(head, tail, 2);
+    // 1,3,2,2,3,2,2,2,7
+    // 2,3,3,2
     insertAtTail(head, tail, 2);
     insertAtTail(head, tail, 3);
+    insertAtTail(head, tail, 3);
     insertAtTail(head, tail, 2);
-    insertAtTail(head, tail, 2);
-    insertAtTail(head, tail, 2);
-    insertAtTail(head, tail, 7);
+    // insertAtTail(head, tail, 5);
+    // insertAtTail(head, tail, 1);
+    // insertAtTail(head, tail, 2);
+    // insertAtTail(head, tail, 2);
+    // insertAtTail(head, tail, 7);
 
     printList(head);  
     vector<int> ans = nodesBetweenCriticalPoints(head);
