@@ -2,36 +2,9 @@
 
 using namespace std;
 
-void insertAtBottom(stack<string>&st, string target){
-    if(st.empty()){
-        st.push(target);
-        return;
-    }
-
-    string temp = st.top();
-    st.pop();
-    insertAtBottom(st, target);
-    st.push(temp);
-}
-
-void reverseStack(stack<string> &st){
-
-    if(st.empty()){
-        return;
-    }
-
-    string target = st.top();
-    st.pop();
-
-    reverseStack(st);
-
-    insertAtBottom(st, target);
-
-}
-
 void printStack(stack<string> s){
     while(!s.empty()){
-        cout<<s.top()<<" ";
+       // cout<<s.top()<<" ";
         s.pop();
     }
     cout<<endl;
@@ -40,35 +13,42 @@ void printStack(stack<string> s){
 string simplifyPath(string s){
     stack<string> st;
     int i=0;
+    int pop = 0;
     while(i<s.size()){
+        // cout<<"i value: "<<i<<endl;
         if(s.substr(i,2) == "./"){
             i+=2;
-            continue;
+            continue; 
         }
-
+        
         if(s.substr(i,2) == ".."){
-            if(!st.empty())
-                st.pop();
+            pop++;
+            // if(!st.empty())
+            //     st.pop();
             i+=2;
+            // cout<<"substr: "<<s.substr(i,2)<<" i value: "<<i<<endl;
             continue;
         }
-
 
         string pushit = "";
-        while(s[i]!='/'){
+        while(s[i]!='/' && i<s.size()){
             pushit.push_back(s[i]);
             i++;
-        }cout<<"PUSHIT: "<<pushit<<endl;
-        
-        
-        
+        }
+        cout<<"before: "<<pushit<<" || ";
+        reverse(pushit.begin(), pushit.end());
+        cout<<"after: "<<pushit<<endl;
+
+        while(pop){
+            if(!pushit.empty()){
+                pushit.pop_back();
+            }
+            pop--;
+        }
         if(!pushit.empty())
             st.push(pushit);
         i++;
-        cout<<"STACK: ";
-        printStack(st);
     }
-    reverseStack(st);
     string ans = "/";
     while(!st.empty()){
         ans += st.top();
@@ -79,9 +59,6 @@ string simplifyPath(string s){
         ans.pop_back();
     return ans;
 }
-
-
-
 
 int main(){
     string path;
