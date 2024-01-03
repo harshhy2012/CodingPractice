@@ -14,7 +14,7 @@ string simplifyPath(string s){
     stack<string> st;
     int i=0;
     int pop = 0;
-    while(i<s.size()){
+    while(i<s.size()){ 
         // cout<<"i value: "<<i<<endl;
         if(s.substr(i,2) == "./"){
             i+=2;
