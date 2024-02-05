@@ -108,4 +108,5 @@ int main() {
     cin>>s;
 
     cout<<countMinReversals(s)<<endl;
+
 }
