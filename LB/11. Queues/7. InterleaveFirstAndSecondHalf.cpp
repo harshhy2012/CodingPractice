@@ -18,63 +18,65 @@ void printQueue(queue<int> q){
     cout<<endl;
 }
 
-void reverseKElements(queue<int>&q, int k){
-    int n = q.size();
-    if(k==0 || k>n)
+void interleave(queue<int>&q1){
+    int n = q1.size();
+    if(n<=2){
         return; 
-    stack<int> st;
+    }
+    queue<int> q2;
+    int mid = n/2;
     int count = 0;
-    int n = q.size();
-    while(count<k){
-        int x = q.front();
-        st.push(x);
-        q.pop();
+    bool isOdd = n&1;
+    if(isOdd){
+        mid++;
+    } 
+    while(count<mid){
+        q2.push(q1.front());
+        q1.pop();
         count++;
     }
 
-    cout<<"STACK: ";printStack(st);
-    cout<<endl;
-    cout<<"QUEUE: ";printQueue(q);
-    cout<<endl;
-
-    while(!st.empty()){
-        int x = st.top();
-        q.push(x);
-        st.pop();
+    if(n==3){
+        q1.push(q2.front());
+        q2.pop()
     }
 
-    cout<<"STACK: ";printStack(st);
-    cout<<endl;
-    cout<<"QUEUE: ";printQueue(q);
-    cout<<endl;
+    cout<<"Q1 AFTER WHILE ITER "<<count<<": ";printQueue(q1);cout<<endl;
+    cout<<"Q2 AFTER WHILE ITER "<<count<<": ";printQueue(q2);cout<<endl;
 
-    int leftOver = n-k;
-    while(leftOver && !q.empty()){
-        int x = q.front();
-        q.pop();
-        q.push(x);
-        leftOver--;
-    }
-
-    cout<<"STACK: ";printStack(st);
-    cout<<endl;
-    cout<<"QUEUE: ";printQueue(q);
-    cout<<endl;
-
+    int c =  1;
+    while(!q1.empty() && !q2.empty()){
+        cout<<"COUNT :"<<c<<endl;
+        cout<<"Q1 AFTER WHILE ITER "<<count<<": ";printQueue(q1);cout<<endl;
+        cout<<"Q2 AFTER WHILE ITER "<<count<<": ";printQueue(q2);cout<<endl;
+        int first = q2.front();
+        q2.pop();
+        q1.push(first);
+        int second = q1.front();
+        q1.pop();
+        q1.push(second);
+        if(isOdd && q2.size()==1)
+            break;
+   }
+//    if(n&1){
+//         q1.push(q1.front());
+//         q1.pop();
+   // }
+   
 }
 
 int main(){
     queue<int> q;
-    q.push(3);
-    q.push(6);
-    q.push(9);
-    q.push(2);
-    q.push(8);
-
-    int k;
-    cin>>k;
-
-    reverseKElements(q, k);
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    // q.push(40);
+    // q.push(50);
+    // q.push(60);
+    // q.push(70);
+    // q.push(80);
+    // q.push(90);
+    interleave(q);
 
     cout<<"Q After Rev: ";
     while(!q.empty()){
