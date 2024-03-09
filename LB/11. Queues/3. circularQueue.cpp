@@ -17,7 +17,7 @@ class cQueue{
         }
 
         void push(int data){
-            if(front == 0 && rear == n-1){
+            if(rear == (front-1)%(n-1)){
                 cout<<"Q IS FULL\n";
                 return;
             }
