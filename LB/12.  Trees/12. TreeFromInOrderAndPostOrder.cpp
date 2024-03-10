@@ -37,19 +37,8 @@ void inOrder(TreeNode* root){
     inOrder(root->right);
 }
 
-void preOrder(TreeNode* root){
-    //NLR
-    if(root==NULL){
-        return;
-    }
-    cout<<root->val<<" ";
-    preOrder(root->left);
-    preOrder(root->right);
-}
-
-
 void postOrder(TreeNode* root){
-    //LRN
+    //NLR
     if(root==NULL){
         return;
     }
@@ -84,29 +73,25 @@ void levelOrderTraversal(TreeNode*root){
         
     }
 }
-
-
-TreeNode* createTreeFromTraversals(vector<int> &inO, vector<int> &preO, int &pi, int inOStart, int inOEnd){
-    if(inOStart>inOEnd|| pi>=preO.size()){
+TreeNode* createTreeFromTraversals(vector<int> &inO, vector<int> &postO, int &pi, int inOStart, int inOEnd){
+    if(inOStart>inOEnd|| pi>=0){
         return NULL;
     }
-    TreeNode* root = new TreeNode(preO[pi]);
-    int posi =  find(inO.begin(), inO.end(), preO[pi]) - inO.begin();   
-    pi++;
-    root->left = createTreeFromTraversals(inO, preO, pi, inOStart, posi-1);
-    root->right = createTreeFromTraversals(inO, preO, pi, posi+1, inOEnd);
+    TreeNode* root = new TreeNode(postO[pi]);
+    int posi =  find(inO.begin(), inO.end(), postO[pi]) - inO.begin();   
+    pi--;
+    root->right = createTreeFromTraversals(inO, postO, pi, posi+1, inOEnd);
+    root->left = createTreeFromTraversals(inO, postO, pi, inOStart, posi-1);
     return root;
 }
 
 int main(){
-    vector<int> inO = {20, 10, 40, 30, 50};
-    vector<int> preO = {10, 20, 30, 40, 50};
-    int pi = 0;  
+    vector<int> inO = {40, 20, 10, 50, 30, 60};
+    vector<int> postO = {40, 20, 50, 60, 30, 10};
+    int pi = postO.size()-1;  
 
-    TreeNode* root = createTreeFromTraversals(inO, preO, pi, 0, inO.size()-1);
+    TreeNode* root = createTreeFromTraversals(inO, postO, pi, 0, inO.size()-1);
     cout<<"INORDER: ";inOrder(root);
-    cout<<endl;
-    cout<<"PREORDER: ";preOrder(root);
     cout<<endl;
     cout<<"POSTORDER: ";postOrder(root);
     cout<<endl;
