@@ -64,6 +64,14 @@ void levelOrderTraversal(TreeNode*root){
     }
 }
 
+TreeNode* BSTtoSortedDLL(TreeNode*root){
+    if(!root){
+        return;
+    }
+    BSTtoSortedDLL(root->left);
+    
+}
+
 void preOrder(TreeNode* root){
     if(!root){
         return;
@@ -89,29 +97,6 @@ void postOrder(TreeNode* root){
     postOrder(root->left);
     postOrder(root->right);
     cout<<root->val<<" ";
-}
-
-TreeNode* findElement(TreeNode*root, int target){
-    
-    if(!root){
-        return NULL;
-    }
-    if(root->val == target){
-        return root;
-    }
-    findElement(root->left, target);
-    findElement(root->right, target);
-}
-
-TreeNode* inOrderPredecessor(TreeNode*root, int target){
-    if(!root){
-        return NULL;
-    }
-    if(root->val == target){
-        return root;
-    }
-    findElement(root->left, target);
-    findElement(root->right, target);
 }
 
 int main(){

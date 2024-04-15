@@ -38,6 +38,69 @@ void inputData(TreeNode*&root){
     }
 }
 
+TreeNode* findElement(TreeNode*root, int key){
+    if(!root){
+        return NULL;
+    }
+    if(root->val == key){
+        return root;
+    }
+    findElement(root->left, key);
+    findElement(root->right, key);
+}
+
+int maxVal(TreeNode*root){
+    if(!root){
+        return NULL;
+    }
+    TreeNode*temp = root;
+    while(temp->right){
+        temp = temp->right;
+    }
+    return temp->val;
+}
+
+TreeNode* deleteNode(TreeNode*&root, int key){
+       if(!root){
+        return NULL;
+       }
+       if(root->val == key){
+        if(!root->left && !root->right){
+            TreeNode*temp = root;
+            delete temp;
+            return NULL;
+        }
+        else if(!root->left && root->right){
+            TreeNode*temp = root;
+            TreeNode*child = root->right;
+            delete temp;
+            return child;    
+        }
+        else if(root->left && !root->right){
+            TreeNode*temp = root;
+            TreeNode*child = root->left;
+            delete temp;
+            return child;  
+        } else{
+            int inOrderPre = maxVal(root->left);
+            root->val = inOrderPre;
+            root->left = deleteNode(root->left, inOrderPre);
+            return root;
+        }
+    } else if(root->val>key){
+        if(root->left)
+            root->left = deleteNode(root->left, key);
+        else
+            return NULL;
+    } else if(root->val<key){
+        if(root->right)
+            root->right = deleteNode(root->right, key);
+        else    
+            return NULL;
+    }
+    return root;
+}
+
 void levelOrderTraversal(TreeNode*root){
     if(!root){
         return;
@@ -91,29 +154,6 @@ void postOrder(TreeNode* root){
     cout<<root->val<<" ";
 }
 
-TreeNode* findElement(TreeNode*root, int target){
-    
-    if(!root){
-        return NULL;
-    }
-    if(root->val == target){
-        return root;
-    }
-    findElement(root->left, target);
-    findElement(root->right, target);
-}
-
-TreeNode* inOrderPredecessor(TreeNode*root, int target){
-    if(!root){
-        return NULL;
-    }
-    if(root->val == target){
-        return root;
-    }
-    findElement(root->left, target);
-    findElement(root->right, target);
-}
-
 int main(){
     TreeNode* root = NULL;
     inputData(root);
@@ -126,6 +166,18 @@ int main(){
     cout<<endl;
     cout<<"PostOrder: ";postOrder(root);
     cout<<endl;
-    
+    int key = 100;
+    cout<<endl;
+    cout<<"Deleteing Node: "<<key<<endl;
+    deleteNode(root, key);
+    cout<<"NODE DELETED!\n";
+    cout<<"Level order: \n";levelOrderTraversal(root);
+    cout<<endl;
+    cout<<"PreOrder: ";preOrder(root);
+    cout<<endl;
+    cout<<"InOrder: ";inOrder(root);
+    cout<<endl;
+    cout<<"PostOrder: ";postOrder(root);
+    cout<<endl;
     return 0;
 }

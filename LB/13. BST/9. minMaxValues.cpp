@@ -91,27 +91,26 @@ void postOrder(TreeNode* root){
     cout<<root->val<<" ";
 }
 
-TreeNode* findElement(TreeNode*root, int target){
-    
+int minVal(TreeNode*root){
     if(!root){
-        return NULL;
+        return -1;
     }
-    if(root->val == target){
-        return root;
+    TreeNode* temp = root;
+    while(temp->left){
+        temp = temp->left;
     }
-    findElement(root->left, target);
-    findElement(root->right, target);
+    return temp->val;
 }
 
-TreeNode* inOrderPredecessor(TreeNode*root, int target){
+int maxVal(TreeNode*root){
     if(!root){
-        return NULL;
+        return -1;
     }
-    if(root->val == target){
-        return root;
+    TreeNode*temp = root;
+    while(temp->right){
+        temp = temp->right;
     }
-    findElement(root->left, target);
-    findElement(root->right, target);
+    return temp->val;
 }
 
 int main(){
@@ -126,6 +125,6 @@ int main(){
     cout<<endl;
     cout<<"PostOrder: ";postOrder(root);
     cout<<endl;
-    
+    cout<<"Min Value: "<<minVal(root)<<" || Max Value: "<<maxVal(root)<<endl;
     return 0;
 }
