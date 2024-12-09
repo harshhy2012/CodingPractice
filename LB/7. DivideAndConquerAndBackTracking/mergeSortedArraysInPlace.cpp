@@ -6,7 +6,7 @@ void mergeInPlace(vector<int>&a1, vector<int>&a2){
     int n = a1.size(), m = a2.size(), total_size = n+m;
 
     int gap = (total_size/2)+(total_size%2);
-    while(gap){
+    while(gap){ 
         int i=0, j=(i+gap > n ? (i+gap)%m : i+gap);
         while(j+n<total_size){
             if(i+gap > n && i<n){

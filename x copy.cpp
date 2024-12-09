@@ -36,57 +36,53 @@ using namespace std;
 //     return ans;
 
 // }
-
-int numOfGasStation(vector<int>&arr, int mid){
-    int n = arr.size();
-    int cnt = 0;
-    for(int i=1;i<n;i++){
-        int numInBetween = ( arr[i] - arr[i-1] ) / mid;
-        if(arr[i] - arr[i-1] == numInBetween * mid)
-            numInBetween--;
-
-        cnt+=numInBetween;
+    int lowerBound(vector<int> arr){
+    if(arr[0] == 1){
+      return 0;
     }
-    return cnt;
-}
-
-long double minimiseMaxDistance(vector<int> &arr, int k) {
-    int n = arr.size(); 
-    long double low = 0;
-    long double high = 0;
-
-    for(int i=0;i<n-1;i++){
-        high = max(high, (long double)(arr[i+1]-arr[i]));
+    int low = 0, high = arr.size();
+    while(low<=high){
+      int mid = high - (high-low)/2;
+      if(arr[mid] >= 1){
+        high = mid-1;
+      } else{
+        low = mid+1;
+      }
     }
-
-    long double diff = 1e-6;
-    while(high - low > diff){
-        long double mid = (low + high) / 2.0;
-        int cnt = numOfGasStation(arr, mid);
-        if(cnt > k){
-            low = mid;
-        } else{
-            high = mid;
-        }
-    }
-    
     return high;
-}
+  }
+
+
+    int rowWithMax1s(vector < vector < int >> & mat) {
+    int n = mat.size();
+    int m = mat[0].size();
+
+    int maxCount = 0, maxRow = -1;
+
+    for(int i=0;i<n;i++){
+      int numOnes = m-lowerBound(mat[i]);
+      cout<<"Num of 1s in row "<<i+1<<" is: "<<numOnes<<endl;
+      if(numOnes > maxCount){
+        maxCount = numOnes;
+        maxRow = i;
+      }
+
+    }
+    return maxRow;
+  }
 
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (auto &i : arr)
-    {
-        cin >> i;
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> mat(n, vector<int> (m));
+    for (auto &i : mat){
+        for(auto &j: i){
+            cin>>j;
+        }
     }
-    int k;
-    cin>>k;
-    long double ans = minimiseMaxDistance(arr, k);
-    cout << std::fixed << std::setprecision(6);
-    std::cout << "Rounded value: " << ans << std::endl;
+    int ans = rowWithMax1s(mat);
+    cout<<" row with max 1s: "<< ans <<endl;
     return 0;
 }

@@ -64,12 +64,26 @@ void levelOrderTraversal(TreeNode*root){
     }
 }
 
-TreeNode* BSTtoSortedDLL(TreeNode*root){
+void BSTtoSortedDLL(TreeNode*root, TreeNode*&head){
     if(!root){
         return;
     }
-    BSTtoSortedDLL(root->left);
-    
+    BSTtoSortedDLL(root->right, head);
+    root->right = head;
+    if(head){
+        head->left = root;
+    }
+
+    head = root;
+    BSTtoSortedDLL(root->left, head);
+}
+
+void printLinkedList(TreeNode* head){
+    while(head){ 
+        cout<<head->val<<" ";
+        head = head->right;
+    }
+    cout<<endl;
 }
 
 void preOrder(TreeNode* root){
@@ -99,6 +113,8 @@ void postOrder(TreeNode* root){
     cout<<root->val<<" ";
 }
 
+
+
 int main(){
     TreeNode* root = NULL;
     inputData(root);
@@ -112,5 +128,12 @@ int main(){
     cout<<"PostOrder: ";postOrder(root);
     cout<<endl;
     
+    TreeNode* head = NULL;
+    BSTtoSortedDLL(root, head);
+    cout<<endl;
+    cout<<"LL: ";
+    printLinkedList(head);
+    cout<<endl;
+
     return 0;
 }

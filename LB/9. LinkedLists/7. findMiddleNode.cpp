@@ -2,44 +2,44 @@
 
 using namespace std;
 
-class Node{
+class ListNode{
 public:
-    int data;
-    Node*next;
+    int val;
+    ListNode*next;
 
-    Node(){
-        this->data = 0;
+    ListNode(){
+        this->val = 0;
         this->next = NULL;
     }
-    Node(int data){
-        this->data = data;
+    ListNode(int data){
+        this->val = data;
         this->next = NULL;
     }
 };
 
-void insertAtTail(Node*&head, Node*&tail, int data){
+void insertAtTail(ListNode*&head, ListNode*&tail, int val){
     if(!head){
-        Node *newNode = new Node(data);
+        ListNode *newNode = new ListNode(val);
         head = newNode;
         tail = newNode;
         return;
     }
-    Node *newNode = new Node(data);
+    ListNode *newNode = new ListNode(val);
     tail->next = newNode;
     tail = newNode;
 }
 
-void printList(Node* head){
+void printList(ListNode* head){
     while(head){
-        cout<<head->data<<" ";
+        cout<<head->val<<" ";
         head = head->next;
     }
     cout<<endl;
 }
 
-Node* middleNode(Node* head){
-    Node*slow = head;
-    Node*fast = head->next;
+ListNode* middleNode(ListNode* head){
+    ListNode*slow = head;
+    ListNode*fast = head->next;
     while(fast!=NULL){
         fast = fast->next;
         if(fast!=NULL){
@@ -50,14 +50,31 @@ Node* middleNode(Node* head){
     return slow;
 }
 
+ListNode* middleNode(ListNode* head, int n){
+ListNode *temp = head;
+    int x = n / 2;
+    while (x > 0)
+    {
+        temp = temp->next;
+        x--;
+    }
+    return temp;
+}
+
+
 int main(){
-    Node *head = NULL, *tail = NULL;
+    ListNode *head = NULL, *tail = NULL;
     insertAtTail(head, tail, 10);
     insertAtTail(head, tail, 20);
     insertAtTail(head, tail, 30);
     insertAtTail(head, tail, 40);
+    // insertAtTail(head, tail, 50);
+    // insertAtTail(head, tail, 60);
+    // insertAtTail(head, tail, 70);
+    // insertAtTail(head, tail, 80);
     printList(head);
-    Node*mid = middleNode(head);
+    ListNode*mid = middleNode(head);
+    cout<<"midNode: "<<mid->val<<endl;
     printList(mid);
     return 0;
 }

@@ -32,7 +32,7 @@ int main(){
     int key;
     cin>>key;
 
-    if(binarySearch(arr, key))
+    if(binarySearch(arr, key))  
         cout<<"FOUND!\n";
     else
         cout<<"NOT FOUND\n";

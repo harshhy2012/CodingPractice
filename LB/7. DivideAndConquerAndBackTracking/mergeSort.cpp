@@ -34,7 +34,7 @@ void merge(vector<int> &arr, int s, int e){
     while(j<len2){
         arr[k++] = right[j++];
     }
-    for(auto i: arr){
+    for(auto i: arr){   
         cout<<i<<" ";
     }
     cout<<endl;
