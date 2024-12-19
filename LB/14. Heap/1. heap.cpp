@@ -17,7 +17,7 @@ class Heap{
         size++;
         int idx = size;
         v[idx] = data;
-        while(idx > 1){
+        while(idx > 1){ 
             int parentIdx = idx/2;
             if(v[idx] > v[parentIdx]){
                 swap(v[idx], v[parentIdx]);
@@ -70,7 +70,7 @@ void heapify(vector<int>&v, int size, int i){
     if(leftIdx <= size && v[leftIdx] > v[idx]){
         swapIdx = leftIdx;
     }
-    if(rightIdx <= size && v[rightIdx] > v[idx]){
+    if(rightIdx <= size && v[rightIdx] > v[swapIdx]){
         swapIdx = rightIdx;
     }
     if(swapIdx != idx){

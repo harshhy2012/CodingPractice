@@ -64,7 +64,7 @@ void levelOrderTraversal(Node*root){
 }
 
 int main(){
-    Node* root = buildTree();
+    Node* root = buildTree();   
     levelOrderTraversal(root);
     cout<<endl;
     buildSumTree(root);
