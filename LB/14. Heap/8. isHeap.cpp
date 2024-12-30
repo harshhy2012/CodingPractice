@@ -63,20 +63,20 @@ void levelOrderTraversal(TreeNode* root){
     }
 }
 
-pair<int, bool> isHeap(TreeNode* root){
-    if(!root){
-        return {INT_MIN,true};
-    }
-    if(!root->left && !root->right){
-        return {root->val, true};
-    }
+// pair<int, bool> isHeap(TreeNode* root){
+//     if(!root){
+//         return {INT_MIN,true};
+//     }
+//     if(!root->left && !root->right){
+//         return {root->val, true};
+//     }
 
-    pair<int, bool> left = isHeap(root->left);
-    pair<int, bool> right = isHeap(root->right);
+//     pair<int, bool> left = isHeap(root->left);
+//     pair<int, bool> right = isHeap(root->right);
 
-    bool curr = left.first < root->val && right.first < root->val;
-    return {root->val, left.second && right.second && curr};
-}
+//     bool curr = left.first < root->val && right.first < root->val;
+//     return {root->val, left.second && right.second && curr};
+// }
 
 void heapify(TreeNode*&root){
     if(!root || (!root->right && !root->left)){
@@ -111,27 +111,93 @@ void heapify(TreeNode*&root){
     }
 }
 
+void printQ(queue<TreeNode*> q){
+    
+    while(!q.empty()){
+        TreeNode* curr = q.front();
+        q.pop();
+        if(curr){
+            cout<<curr->val<<" -> ";
+        }
+        else{
+            cout<<"NULL -> "; 
+        }
+    };
+    cout<<endl;
+}
+bool isCompleteTree(TreeNode*root){
+    if(!root) return true;
+
+    std::queue<TreeNode*> q;
+    q.push(root);
+    bool foundNULL = false;
+    cout<<"Q: ";
+        printQ(q);
+    while(!q.empty()){
+        TreeNode*curr = q.front();
+        q.pop();
+
+        if(!curr){
+            foundNULL = true;
+            cout<<"Q: ";
+            printQ(q);
+        } else{
+            if(foundNULL) return false;
+            q.push(curr->left);
+            q.push(curr->right);
+            cout<<"Q: ";
+            printQ(q);
+        }
+        
+    }
+    return true;
+}
+
+bool isHeapProperty(TreeNode*root){
+    if(!root){
+        return true;
+    }
+    if(!root->left && !root->right){
+        return true;
+    }
+    if(root->right && root->val < root->right->val) return false;
+
+    if(root->left && root->val < root->left->val) return false;
+    
+    return isHeapProperty(root->left) && isHeapProperty(root->right); 
+}
+
+bool isHeap(TreeNode*root){
+    return isCompleteTree(root) && isHeapProperty(root);
+}
+
+
 int main(){
     TreeNode* root = NULL;
     root = buildTree();
 
     cout<<"Height of Tree: "<< height(root) << endl;
 
-    heapify(root);
+    //heapify(root);
 
     cout<<"Level order Traversal: \n";
     levelOrderTraversal(root);
     cout<<endl;
 
 
-    pair<int, bool> ans = isHeap(root);    
+    // pair<int, bool> ans = isHeap(root);    
 
-    if(ans.second){
-        cout<<" the tree is a heap \n";
+    // if(ans.second){
+    //     cout<<" the tree is a heap \n";
+    // } else{
+    //     cout<<" not a heap! \n";
+    // }
+    // int idx = 0, nodeCount = 0;
+    if(isHeap(root)){
+        cout<<"Heap hai\n";
     } else{
-        cout<<" not a heap! \n";
+        cout<<"Not a heap\n";
     }
-
 
     return 0;
 }
