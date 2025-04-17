@@ -41,7 +41,6 @@ bool searchWord(TrieNode*&root, string word){
     }
     char ch = word[0];
     int idx = ch-'a';
-    TrieNode*child;
     if(root->children[idx]){
         return searchWord(root->children[idx], word.substr(1));
     } else{
@@ -65,21 +64,65 @@ void deleteWord(TrieNode*&root, string word){
     }
 }
 
+void getStringWithChar(TrieNode*&root, vector<string>&charStrings, string&charString){
+    if(root->isEndOfWord){
+        charStrings.push_back(charString);
+    }
+    for(char ch='a'; ch <= 'z';ch++){
+        int idx = ch-'a';
+        if(root->children[idx]){
+            charString.push_back(ch);
+            getStringWithChar(root->children[idx], charStrings, charString);
+            charString.pop_back();
+        }
+    }
+}
+
 vector<vector<string>> getSuggestions(TrieNode*&root, string key){
-    c   
+    TrieNode* prev = root;
+    vector<vector<string>> ans; 
+    string charString = "";
+
+    for(int i=0;i<key.size();i++){
+        char lastCh = key[i];
+
+        int idx = lastCh-'a';
+        TrieNode*curr = prev->children[idx];
+            
+        if(!curr){
+            break;
+        }
+        else{
+            vector<string> charStrings;
+            charString.push_back(lastCh);
+            getStringWithChar(curr, charStrings, charString);
+            ans.push_back(charStrings);
+            prev = curr;
+        }
+    }
+    return ans;
 }
 
 
 int main(){
     TrieNode* root = new TrieNode('-');
     vector<string> strings = {
-        "love", "lover", "loving", "lane", "last", "lost", "lord"
+        "love", "lover", "loving", "lane", "lost", "lord"
     };
     string key = "loved";
     for(auto str: strings){
         insertWord(root, str);
     }
 
+    vector<vector<string>> ans = getSuggestions(root, key);
+    cout<<"\nChala\n";
+    for(auto i: ans){
+        cout<<"answers: \n";
+        for(auto j:i){
+            cout<<j<<", ";
+        }
+        cout<<endl;
+    }
 
 
     return 0;
